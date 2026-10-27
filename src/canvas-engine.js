@@ -332,3 +332,4 @@ export class InstancedCanvasEngine {
     window.removeEventListener('pointermove', this.handleMouseMove);
   }
 }
+
