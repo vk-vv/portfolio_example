@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VK — Systems & Frontend Engineer. Building accessible interfaces, rendering systems, and type-safe architectures.">
+  <meta name="theme-color" content="#0A3B42">
+  <title>VK | Systems & Frontend Engineering</title>
+
+  <!-- Google Fonts: Bricolage Grotesque (Headings) & Atkinson Hyperlegible (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <!-- Accessible Skip Link for Keyboard Users -->
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- Fixed 3D Visual Stage (Aria hidden so screen readers focus purely on semantic HTML) -->
+  <div class="canvas-viewport" aria-hidden="true" id="canvas-container">
+    <canvas id="canvas-3d"></canvas>
+  </div>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="site-logo" href="#hero" aria-label="VK Portfolio Home">
+        <span class="logo-glyph" aria-hidden="true">VK</span>
+        <span>Systems Engineering</span>
+      </a>
+
+      <!-- Primary Navigation -->
+      <nav class="site-nav" id="primary-nav" aria-label="Main Navigation">
+        <ul class="nav-list" role="list">
+          <li><a class="nav-link" href="#about">About</a></li>
+          <li><a class="nav-link" href="#projects">Projects</a></li>
+          <li><a class="nav-link" href="#experience">Experience</a></li>
+          <li><a class="nav-link" href="#skills">Skills</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Controls: Static Mode Toggle & Mobile Menu -->
+      <div class="header-actions">
+        <button type="button" class="mode-toggle-btn" id="static-toggle-btn" aria-pressed="false" title="Toggle 3D visual engine or static mode">
+          <span class="mode-toggle-indicator" aria-hidden="true"></span>
+          <span id="static-toggle-label">Static Mode (?static=1)</span>
+        </button>
+
+        <button type="button" class="mode-toggle-btn mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu" style="display: none;">
+          <span aria-hidden="true">☰</span>
+          <span>Menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Semantic HTML Content Layer -->
+  <main id="main-content" class="content-layer" tabindex="-1">
+    
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section" aria-labelledby="hero-title">
+      <div class="container hero-layout">
+        <div class="hero-content">
+          <div class="hero-badge">Engineering Architecture &amp; Visual Systems</div>
+          <h1 class="hero-title" id="hero-title">Precision interfaces engineered from first principles.</h1>
+          <p class="hero-subtitle">
+            Crafting performant web applications with semantic structure, strict accessibility compliance, and mathematical rendering rigor.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">Explore Work</a>
+            <a class="btn btn-secondary" href="#contact">Get in Touch</a>
+          </div>
+          <div class="hero-status-box" role="status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="hero-status-text">Interactive instanced geometric canvas active. Respects system motion and performance boundaries.</span>
+          </div>
+        </div>
+
+        <!-- Static Hero Fallback Artwork (Active in ?static=1 mode or WebGL fallback) -->
+        <div class="static-hero-fallback" id="static-hero-fallback" aria-labelledby="static-hero-heading">
+          <span class="static-hero-badge">Static Geometry View</span>
+          <h2 id="static-hero-heading" style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-text);">Static Architectural Perspective</h2>
+          <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Isometric geometric cube array">
+            <defs>
+              <linearGradient id="prism-top" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="var(--color-accent)" />
+                <stop offset="100%" stop-color="var(--color-accent-hover)" />
+              </linearGradient>
+              <linearGradient id="prism-left" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--color-bg-surface)" />
+                <stop offset="100%" stop-color="var(--color-bg-card)" />
+              </linearGradient>
+              <linearGradient id="prism-right" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--color-bg-surface-hover)" />
+                <stop offset="100%" stop-color="var(--color-bg-deep)" />
+              </linearGradient>
+            </defs>
+
+            <!-- Grid of Isometric Prisms -->
+            <!-- Prism 1 (Center) -->
+            <g transform="translate(200, 150)">
+              <!-- Top Face -->
+              <polygon points="0,-45 40,-22 0,0 -40,-22" fill="url(#prism-top)" stroke="var(--color-border-subtle)" stroke-width="1.5" />
+              <!-- Left Face -->
+              <polygon points="-40,-22 0,0 0,55 -40,33" fill="url(#prism-left)" stroke="var(--color-border-subtle)" stroke-width="1.5" />
+              <!-- Right Face -->
+              <polygon points="0,0 40,-22 40,33 0,55" fill="url(#prism-right)" stroke="var(--color-border-subtle)" stroke-width="1.5" />
+            </g>
+
+            <!-- Prism 2 (Upper Left) -->
+            <g transform="translate(140, 95)">
+              <polygon points="0,-35 32,-17 0,0 -32,-17" fill="url(#prism-top)" opacity="0.9" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="-32,-17 0,0 0,40 -32,23" fill="url(#prism-left)" opacity="0.9" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="0,0 32,-17 32,23 0,40" fill="url(#prism-right)" opacity="0.9" stroke="var(--color-border-subtle)" stroke-width="1" />
+            </g>
+
+            <!-- Prism 3 (Upper Right) -->
+            <g transform="translate(260, 95)">
+              <polygon points="0,-35 32,-17 0,0 -32,-17" fill="url(#prism-top)" opacity="0.85" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="-32,-17 0,0 0,40 -32,23" fill="url(#prism-left)" opacity="0.85" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="0,0 32,-17 32,23 0,40" fill="url(#prism-right)" opacity="0.85" stroke="var(--color-border-subtle)" stroke-width="1" />
+            </g>
+
+            <!-- Prism 4 (Lower Left) -->
+            <g transform="translate(130, 205)">
+              <polygon points="0,-30 28,-15 0,0 -28,-15" fill="url(#prism-top)" opacity="0.75" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="-28,-15 0,0 0,35 -28,20" fill="url(#prism-left)" opacity="0.75" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="0,0 28,-15 28,20 0,35" fill="url(#prism-right)" opacity="0.75" stroke="var(--color-border-subtle)" stroke-width="1" />
+            </g>
+
+            <!-- Prism 5 (Lower Right) -->
+            <g transform="translate(270, 205)">
+              <polygon points="0,-30 28,-15 0,0 -28,-15" fill="url(#prism-top)" opacity="0.75" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="-28,-15 0,0 0,35 -28,20" fill="url(#prism-left)" opacity="0.75" stroke="var(--color-border-subtle)" stroke-width="1" />
+              <polygon points="0,0 28,-15 28,20 0,35" fill="url(#prism-right)" opacity="0.75" stroke="var(--color-border-subtle)" stroke-width="1" />
+            </g>
+
+            <!-- Decorative Coordinate Wireframe Lines -->
+            <line x1="60" y1="160" x2="340" y2="160" stroke="var(--color-accent-border)" stroke-dasharray="4 4" stroke-width="1" />
+            <line x1="200" y1="40" x2="200" y2="280" stroke="var(--color-accent-border)" stroke-dasharray="4 4" stroke-width="1" />
+          </svg>
+          <div class="static-hero-caption">
+            Static isometric array rendered via vector paths with CSS custom variables.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="content-section" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Philosophy &amp; Focus</span>
+          <h2 class="section-title" id="about-title">Engineering Philosophy</h2>
+          <p class="section-subtitle">Disciplined systems architecture, semantic structure, and accessible digital ergonomics.</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-prose">
+            <p>
+              I engineer digital products where interface clarity and systems reliability are equal priorities. My background spans high-frequency frontend rendering pipelines, accessible component design systems, and robust client architectures.
+            </p>
+            <p>
+              I emphasize semantic HTML as the bedrock of software accessibility, treating assistive devices and keyboard navigation as primary user surfaces rather than retroactive additions.
+            </p>
+            <p>
+              In graphics and client runtimes, I prioritize predictable memory usage, deterministic state transitions, and strict constraint verification over unnecessary dependency chains.
+            </p>
+          </div>
+          <div class="about-values-list" role="list">
+            <div class="value-card" role="listitem">
+              <h3 class="value-title">Deterministic State</h3>
+              <p class="value-detail">State flows in explicit pipelines with verifiable boundaries and no hidden side effects.</p>
+            </div>
+            <div class="value-card" role="listitem">
+              <h3 class="value-title">Semantic Primitives</h3>
+              <p class="value-detail">Interfaces are structured in standard semantic HTML before layering progressive enhancements.</p>
+            </div>
+            <div class="value-card" role="listitem">
+              <h3 class="value-title">Disciplined Footprint</h3>
+              <p class="value-detail">Zero unnecessary dependencies. Native platform APIs and standard CSS variables power the design system.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="content-section" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Systems &amp; Architecture</span>
+          <h2 class="section-title" id="projects-title">Featured Engineering Work</h2>
+          <p class="section-subtitle">Architectural systems, rendering components, and foundational tools built with focus on reliability and accessibility.</p>
+        </div>
+        <div class="projects-grid" id="projects-container">
+          <!-- Populated by static semantic markup & enhanced via script -->
+          <article class="project-card" data-project-id="instanced-mesh-engine">
+            <div class="project-card-header">
+              <h3 class="project-title">Instanced Geometric Canvas Engine</h3>
+              <p class="project-summary">Software-rendered 3D isometric matrix engine utilizing instance transformations, frustum projection, and capped DPR.</p>
+              <p class="project-description">A lightweight canvas rendering engine designed for deterministic isometric visualization. Eliminates realtime shadow maps in favor of mathematical directional Lambertian shading, capping DPR at 1.5 to maintain thermal and battery budgets.</p>
+            </div>
+            <div class="project-architectural-note">
+              Instanced buffer transformations with automatic fallback when static flag (?static=1) is requested.
+            </div>
+            <div class="project-tags" aria-label="Technologies used">
+              <span class="project-tag">Canvas API</span>
+              <span class="project-tag">TypeScript</span>
+              <span class="project-tag">Matrix Math</span>
+              <span class="project-tag">Performance</span>
+              <span class="project-tag">No Dependencies</span>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="#hero">
+                <span>View Live Canvas</span>
+                <span aria-hidden="true">&uarr;</span>
+              </a>
+              <a class="project-link" href="https://github.com/vk/instanced-canvas-engine" target="_blank" rel="noopener noreferrer">
+                <span>Repository</span>
+                <span aria-hidden="true">&nearr;</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card" data-project-id="accessible-design-tokens">
+            <div class="project-card-header">
+              <h3 class="project-title">High-Contrast Token Architecture</h3>
+              <p class="project-summary">Strict CSS custom property token system enforcing WCAG AA contrast ratios and user motion preferences.</p>
+              <p class="project-description">Design token architecture utilizing pure CSS variables with zero runtime styling overhead. Employs mathematically verified contrast pairings (minimum 8:1 ratio) and automatic adaptivity to system prefers-reduced-motion queries.</p>
+            </div>
+            <div class="project-architectural-note">
+              Zero runtime overhead; all theme calculations are resolved natively by the browser cascading engine.
+            </div>
+            <div class="project-tags" aria-label="Technologies used">
+              <span class="project-tag">CSS Custom Properties</span>
+              <span class="project-tag">WCAG 2.2 AA</span>
+              <span class="project-tag">Design Systems</span>
+              <span class="project-tag">Accessibility</span>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://github.com/vk/accessible-tokens" target="_blank" rel="noopener noreferrer">
+                <span>Repository</span>
+                <span aria-hidden="true">&nearr;</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card" data-project-id="reactive-graph-orchestrator">
+            <div class="project-card-header">
+              <h3 class="project-title">Directed Acyclic State Graph</h3>
+              <p class="project-summary">Lightweight reactive graph orchestrator with topological execution and cycle prevention.</p>
+              <p class="project-description">A state graph library built to coordinate asynchronous work tasks and event scheduling without race conditions. Provides deterministic evaluation order and lightweight memory footprint.</p>
+            </div>
+            <div class="project-architectural-note">
+              Guaranteed cycle detection and sub-millisecond execution for complex dependency structures.
+            </div>
+            <div class="project-tags" aria-label="Technologies used">
+              <span class="project-tag">TypeScript</span>
+              <span class="project-tag">Algorithms</span>
+              <span class="project-tag">State Management</span>
+              <span class="project-tag">Concurrency</span>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://github.com/vk/reactive-graph" target="_blank" rel="noopener noreferrer">
+                <span>Repository</span>
+                <span aria-hidden="true">&nearr;</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card" data-project-id="structured-document-parser">
+            <div class="project-card-header">
+              <h3 class="project-title">Semantic Content Pipeline</h3>
+              <p class="project-summary">Parser extracting structured semantic outlines from technical documents and markdown specifications.</p>
+              <p class="project-description">Generates fully accessible landmark trees, keyboard-traversable section anchors, and structured schema tags directly from documentation sources without intermediary build dependencies.</p>
+            </div>
+            <div class="project-architectural-note">
+              Enforces heading hierarchy consistency and aria-labelledby linkages at parse time.
+            </div>
+            <div class="project-tags" aria-label="Technologies used">
+              <span class="project-tag">Parser</span>
+              <span class="project-tag">Semantic Web</span>
+              <span class="project-tag">Accessibility</span>
+              <span class="project-tag">TypeScript</span>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://github.com/vk/semantic-pipeline" target="_blank" rel="noopener noreferrer">
+                <span>Repository</span>
+                <span aria-hidden="true">&nearr;</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="content-section" aria-labelledby="experience-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Track Record</span>
+          <h2 class="section-title" id="experience-title">Technical Experience</h2>
+          <p class="section-subtitle">Architectural leadership, core web systems implementation, and cross-functional engineering.</p>
+        </div>
+        <div class="experience-timeline">
+          <article class="experience-card">
+            <div class="exp-header-row">
+              <h3 class="exp-role">Staff Frontend &amp; Systems Engineer</h3>
+              <span class="exp-period">2023 — Present</span>
+            </div>
+            <div class="exp-org">Platform Engineering Core &bull; Remote</div>
+            <p class="exp-desc">Directing client architecture and accessible interface standards across distributed engineering teams.</p>
+            <ul class="exp-responsibilities">
+              <li>Standardized design token architecture across all web clients, ensuring WCAG 2.2 AA contrast compliance.</li>
+              <li>Engineered canvas and WebGL visual pipelines with strict memory capping and hardware-adaptive frame budgeting.</li>
+              <li>Established automated accessibility auditing in continuous integration workflows.</li>
+            </ul>
+          </article>
+
+          <article class="experience-card">
+            <div class="exp-header-row">
+              <h3 class="exp-role">Senior Systems Engineer</h3>
+              <span class="exp-period">2021 — 2023</span>
+            </div>
+            <div class="exp-org">Infrastructure &amp; Interface Systems &bull; Remote</div>
+            <p class="exp-desc">Engineered high-throughput client data visualization surfaces and real-time dashboard layouts.</p>
+            <ul class="exp-responsibilities">
+              <li>Developed high-efficiency canvas visualization components rendering thousands of data nodes at 60 FPS.</li>
+              <li>Refactored navigation paradigms to establish full keyboard parity and screen-reader navigable landmarks.</li>
+              <li>Eliminated third-party utility libraries in favor of native browser primitives and CSS custom properties.</li>
+            </ul>
+          </article>
+
+          <article class="experience-card">
+            <div class="exp-header-row">
+              <h3 class="exp-role">Software Engineer</h3>
+              <span class="exp-period">2019 — 2021</span>
+            </div>
+            <div class="exp-org">Web Applications Group &bull; Hybrid</div>
+            <p class="exp-desc">Implemented front-facing web applications, responsive component libraries, and testing suites.</p>
+            <ul class="exp-responsibilities">
+              <li>Built modular component libraries with focus on semantic HTML and clean DOM depth.</li>
+              <li>Authored unit and integration test suites covering critical user flows and interaction states.</li>
+              <li>Partnered with design teams to transition from static mockups to fluid CSS grid and flexbox implementations.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="content-section" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Capabilities</span>
+          <h2 class="section-title" id="skills-title">Core Competencies</h2>
+          <p class="section-subtitle">Disciplined engineering skills developed through building production systems.</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-category-card">
+            <h3 class="skill-category-title">Interface Engineering</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Semantic HTML5</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Modern CSS3 (Grid &amp; Flexbox)</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>CSS Custom Properties</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>WCAG 2.2 AA Compliance</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Keyboard Navigation Systems</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Responsive Layouts</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Design Token Pipelines</span></li>
+            </ul>
+          </div>
+
+          <div class="skill-category-card">
+            <h3 class="skill-category-title">Languages &amp; Runtimes</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>TypeScript</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>JavaScript (ESNext)</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Node.js</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Web APIs &amp; DOM Internals</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>JSON Schema / Data Models</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Shell Scripting (POSIX/Bash)</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Git Version Control</span></li>
+            </ul>
+          </div>
+
+          <div class="skill-category-card">
+            <h3 class="skill-category-title">Graphics &amp; Rendering</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>HTML5 2D/3D Canvas API</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Isometric Projection Math</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Instanced Object Buffers</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>CSS 3D Transforms</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>SVG Coordinate Geometry</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Frame Budgeting &amp; DPR Capping</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Prefers-Reduced-Motion Adaptivity</span></li>
+            </ul>
+          </div>
+
+          <div class="skill-category-card">
+            <h3 class="skill-category-title">Architecture &amp; Quality</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Component Hierarchy Design</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>State Machine Orchestration</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Performance Profiling</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Progressive Enhancement</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Zero-Dependency Philosophy</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Static Analysis &amp; Linting</span></li>
+              <li class="skill-item"><span class="skill-bullet" aria-hidden="true"></span><span>Defensive Error Handling</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="content-section" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Get in Touch</span>
+          <h2 class="section-title" id="contact-title">Connect &amp; Inquire</h2>
+          <p class="section-subtitle">Available for engineering roles, technical architecture consults, and open-source collaboration.</p>
+        </div>
+        <div class="contact-layout">
+          <div class="contact-channels">
+            <a class="channel-card" href="mailto:vv.xyzw@proton.me" aria-label="Send an email inquiry to vv.xyzw@proton.me">
+              <div>
+                <div class="channel-name">Email</div>
+                <div class="channel-value">vv.xyzw@proton.me</div>
+              </div>
+              <span class="channel-action" aria-hidden="true">&rarr;</span>
+            </a>
+
+            <a class="channel-card" href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="Review open-source code repositories on GitHub">
+              <div>
+                <div class="channel-name">GitHub</div>
+                <div class="channel-value">github.com/vk</div>
+              </div>
+              <span class="channel-action" aria-hidden="true">&nearr;</span>
+            </a>
+
+            <a class="channel-card" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="Connect via LinkedIn professional network">
+              <div>
+                <div class="channel-name">LinkedIn</div>
+                <div class="channel-value">linkedin.com/in/vk</div>
+              </div>
+              <span class="channel-action" aria-hidden="true">&nearr;</span>
+            </a>
+          </div>
+
+          <div class="contact-info-panel">
+            <h3 class="contact-status-title">Direct Inquiries</h3>
+            <p class="contact-availability">
+              Direct inquiries regarding architecture, accessibility reviews, or systems work are welcome. I review messages promptly and communicate with direct technical clarity.
+            </p>
+            <a class="btn btn-primary direct-email-button" href="mailto:vv.xyzw@proton.me">Send Direct Message</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-top">
+        <p class="footer-copy">&copy; 2026 VK. Engineered with semantic HTML, CSS custom properties, and zero runtime dependencies.</p>
+        <button type="button" class="mode-toggle-btn" id="footer-static-toggle" aria-pressed="false">
+          <span class="mode-toggle-indicator" aria-hidden="true"></span>
+          <span id="footer-static-toggle-label">Static Mode (?static=1)</span>
+        </button>
+      </div>
+      <ul class="footer-notes-list" role="list">
+        <li>Palette: #0A3B42 (bg), #FFD23F (accent), #EAF1F4 (text)</li>
+        <li>Typography: Bricolage Grotesque (headings), Atkinson Hyperlegible (body)</li>
+        <li>Accessibility: Full keyboard navigation, visible focus rings, AA contrast ratios</li>
+        <li>Performance: DPR capped at 1.5, no realtime shadow maps, prefers-reduced-motion verified</li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Application Logic (Canvas 3D Engine, ?static=1 URL handling, Keyboard Accessibility) -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
